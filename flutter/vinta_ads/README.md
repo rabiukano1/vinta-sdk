@@ -46,4 +46,8 @@ Nothing throws: failures come back as `shown: false` with an `error`.
 50% visible for 1 second, and handles taps. `Vinta.deviceId()` returns the
 install id for privacy deletion requests.
 
-Built on VINTA Android SDK 0.4.1. Try it with `example/`.
+Ads people choose: `Vinta.showInterestPicker()` opens VINTA's "Choose your
+interests" dialog (or use `setInterests([...])` / `getInterests()` from your own
+settings screen). Choices stay on the device and only rank ads; there is no profiling.
+
+Built on VINTA Android SDK 0.5.0. Try it with `example/`.

@@ -50,5 +50,9 @@ function FeedAd() {
 Calls never reject: failures resolve with `shown: false` and an `error`.
 `Vinta.deviceId()` returns the install id for privacy deletion requests.
 
-Built on VINTA Android SDK 0.4.0; checked against React Native 0.86 (legacy
+Ads people choose: `Vinta.showInterestPicker()` opens VINTA's "Choose your
+interests" dialog (or use `setInterests([...])` / `getInterests()` from your own
+settings screen). Choices stay on the device and only rank ads; there is no profiling.
+
+Built on VINTA Android SDK 0.5.0; checked against React Native 0.86 (legacy
 module API, runs on the New Architecture via interop).
