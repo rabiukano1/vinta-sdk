@@ -1,0 +1,14 @@
+build/
+.gradle/
+.kotlin/
+.cxx/
+.idea/
+*.iml
+local.properties
+node_modules/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.env*
+*.keystore
+*.jks

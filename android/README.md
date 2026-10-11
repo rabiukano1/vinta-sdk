@@ -1,0 +1,94 @@
+# VINTA Android SDK
+
+Halal ad network SDK for Android (Kotlin, works from Java). Modules:
+
+| Module | What | Size |
+|---|---|---|
+| `vinta` | SDK: banner, interstitial, rewarded, app open, rewarded interstitial, native. No third-party dependencies. minSdk 21. | ~75 KB AAR |
+| `vinta-admob` | AdMob mediation custom-event adapter. minSdk 23. | ~15 KB AAR |
+| `sample` | Test app: paste an app key, try every ad unit. | |
+
+Build: `./gradlew :vinta:assembleRelease :vinta-admob:assembleRelease :sample:assembleDebug`
+(AARs in `*/build/outputs/aar/`, APK in `sample/build/outputs/apk/debug/`).
+
+## Install
+
+```kotlin
+// settings.gradle.kts → dependencyResolutionManagement { repositories { ... } }
+maven { url = uri("https://vinta-console.pages.dev/maven") }
+// app/build.gradle.kts
+implementation("org.view2earn.vinta:vinta:0.4.0")
+implementation("org.view2earn.vinta:vinta-admob:0.4.0.0") // AdMob mediation only
+```
+
+Publish a new version: bump `gradle.properties`, run `gradlew publishToConsole`, deploy the console.
+
+## Direct integration
+
+```kotlin
+// Application.onCreate
+Vinta.init(this, "va_your_app_key", test = BuildConfig.DEBUG)
+
+// Banner
+val banner = VintaBannerView(context)
+layout.addView(banner)
+banner.load("<banner unit id>")
+// onDestroy: banner.destroy()
+
+// Interstitial
+val interstitial = VintaInterstitial()
+interstitial.load("<interstitial unit id>") { error -> if (error == null) interstitial.show(activity, null) }
+
+// Rewarded: userId/customData come back to your server in the signed SSV callback
+val rewarded = VintaRewarded()
+rewarded.load("<rewarded unit id>", userId = "user-123", customData = null) { error ->
+    if (error == null) rewarded.show(activity, object : VintaShowListener {
+        override fun onRewarded(reward: VintaReward) { /* UI only; grant from SSV */ }
+        override fun onClosed() { /* load the next one */ }
+    })
+}
+```
+
+```kotlin
+// App open / rewarded interstitial: same load/show pattern
+VintaAppOpen().also { a -> a.load("<unit>") { e -> if (e == null) a.show(activity, null) } }
+VintaRewardedInterstitial().also { a -> a.load("<unit>", userId = "u1", customData = null) { e -> if (e == null) a.show(activity, listener) } }
+
+// Native: lay out the assets yourself, then register the view
+VintaNativeAd.load("<unit>") { ad, e ->
+    ad ?: return@load
+    title.text = ad.title; body.text = ad.body; cta.text = ad.callToAction
+    icon.setImageBitmap(ad.icon); image.setImageBitmap(ad.image)
+    ad.registerView(cardView) // label, impression (50% for 1s), clicks
+}
+```
+
+Error codes match AdMob: 0 internal, 1 invalid request, 2 network, 3 no fill, 4 not ready.
+
+## AdMob mediation (waterfall custom event)
+
+1. Add `vinta` + `vinta-admob` to the app (it already has Google Mobile Ads).
+2. AdMob → Mediation → your group → **Add custom event**:
+   - Class name: `org.view2earn.vinta.admob.VintaMediationAdapter`
+   - Parameter: `{"appKey":"va_...","unitId":"<VINTA unit id of the same format>"}`
+   - Manual eCPM: your expected VINTA eCPM.
+3. Rewarded: set the reward amount/type on the **AdMob** ad unit to match the VINTA unit
+   (GMA 24 reports the AdMob-configured reward). AdMob's own SSV covers mediated rewards.
+4. Banners: leave auto-refresh **off** on the VINTA unit; AdMob refreshes the mediated banner.
+5. Test with AdMob Ad Inspector.
+
+## Compatibility (blueprint 2.6)
+
+| Adapter | VINTA SDK | Google Mobile Ads (compiled against) | Tested |
+|---|---|---|---|
+| 0.3.0.0 | 0.3.0 | 24.9.0 (compileOnly) | builds; adds app open, rewarded interstitial, native mapper |
+| 0.2.0.0 | 0.2.0 | 24.9.0 (compileOnly: uses the app's version) | builds; not yet in a live mediation group |
+| 0.1.0.0 | 0.1.0 | 24.9.0 | superseded (unsigned requests are no longer billed) |
+
+## Not in 0.1 yet
+
+- VAST/MRAID, OM SDK (blueprint phases 2–4)
+- Play Integrity: not available to third-party SDKs (only the app's own developer can decode its tokens); VINTA uses signed per-install keys + emulator signals instead
+- Persisted offline event queue (events retry in memory)
+- Maven Central (VINTA's own Maven repo works now: `gradlew publishToConsole` → `<console>/maven`)
+- AppLovin MAX / Unity LevelPlay adapters

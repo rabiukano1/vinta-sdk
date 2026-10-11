@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "es2020",
+    "noEmit": true,
+    "skipLibCheck": true,
+    "paths": { "react-native-vinta": ["../src/index.tsx"] }
+  },
+  "include": ["App.tsx"]
+}

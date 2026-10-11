@@ -1,0 +1,20 @@
+{
+  "name": "react-native-vinta",
+  "version": "0.2.0",
+  "description": "VINTA halal ad network for React Native: banner, interstitial, app open, rewarded, rewarded interstitial, native.",
+  "main": "src/index.tsx",
+  "react-native": "src/index.tsx",
+  "types": "src/index.tsx",
+  "files": [
+    "src",
+    "android/build.gradle",
+    "android/src",
+    "react-native.config.js",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.73"
+  },
+  "license": "UNLICENSED"
+}

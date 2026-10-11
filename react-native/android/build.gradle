@@ -1,0 +1,37 @@
+// VINTA React Native module (Android). Built by the host app via autolinking.
+// The VINTA SDK comes from VINTA's Maven repo (added for all projects below);
+// if your app's settings.gradle uses repositoriesMode FAIL_ON_PROJECT_REPOS,
+// add the same maven URL there instead.
+apply plugin: "com.android.library"
+apply plugin: "org.jetbrains.kotlin.android"
+
+def safeExt(name, fallback) { rootProject.ext.has(name) ? rootProject.ext.get(name) : fallback }
+
+android {
+    namespace "org.view2earn.vinta.rn"
+    compileSdk safeExt("compileSdkVersion", 35)
+    defaultConfig { minSdk safeExt("minSdkVersion", 24) }
+}
+
+// Override for testing with a local copy: in the app's android/gradle.properties
+//   vintaMavenUrl=file:///C:/path/to/vinta/apps/vinta/public/maven
+def vintaMaven = rootProject.findProperty("vintaMavenUrl") ?: "https://vinta-console.pages.dev/maven"
+
+// The app resolves this module's dependencies with ITS repositories, so the
+// VINTA repo is added to every project in the build, not just this one.
+rootProject.allprojects {
+    repositories {
+        maven { url vintaMaven }
+    }
+}
+
+repositories {
+    maven { url vintaMaven }
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    implementation "com.facebook.react:react-android"
+    implementation "org.view2earn.vinta:vinta:0.5.0"
+}
