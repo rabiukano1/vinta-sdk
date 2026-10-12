@@ -6,7 +6,7 @@ halal ads, matched to interests **they choose themselves**, and pays
 publishers for real views by real users.
 
 This repository holds VINTA's **public deliverables**: the SDKs that apps and
-websites integrate, the AdMob mediation adapter, example apps and the roadmap.
+websites integrate, the mediation adapters (AdMob, AppLovin MAX, Unity LevelPlay), example apps and the roadmap.
 The ad server, dashboards and payment systems are run by VINTA and are not
 part of this repository.
 
@@ -16,10 +16,13 @@ part of this repository.
 |---|---|---|
 | `android/vinta` | Android SDK (Kotlin, works from Java), minSdk 21, no third-party dependencies | 0.5.0 |
 | `android/vinta-admob` | AdMob mediation adapter (custom event) | 0.5.0.0 |
+| `android/vinta-applovin` | AppLovin MAX mediation adapter (custom SDK network) | 0.5.0.0 |
+| `android/vinta-levelplay` | Unity LevelPlay mediation adapter (custom adapter) | 0.5.0.0 |
 | `android/sample` | Android test app | |
 | `react-native` | React Native wrapper (`react-native-vinta`) + example | 0.2.0 |
 | `flutter/vinta_ads` | Flutter plugin (`vinta_ads`) + example | 0.2.0 |
-| `web/vinta.js` | Web SDK for websites, PWAs and Telegram mini apps (review copy) | see file header |
+| `unity/com.view2earn.vinta` | Unity package for games (`com.view2earn.vinta`) | 0.1.0 |
+| `web` | Web SDK: npm loader `vinta-web` + `vinta.js` (review copy of the served script) | 0.6.0 |
 | `ROADMAP.md` | What's built and what's next | |
 
 Ad formats: banner, interstitial, app open, rewarded, rewarded interstitial

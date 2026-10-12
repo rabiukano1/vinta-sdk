@@ -1,0 +1,11 @@
+{
+  "name": "com.view2earn.vinta",
+  "version": "0.1.0",
+  "displayName": "VINTA Ads",
+  "description": "VINTA halal ad network for Unity: banner, interstitial, app open, rewarded and rewarded interstitial ads. Android now; other platforms return no fill.",
+  "unity": "2021.3",
+  "keywords": ["ads", "advertising", "halal", "rewarded", "vinta"],
+  "author": { "name": "VINTA", "url": "https://github.com/rabiukano1/vinta-sdk" },
+  "documentationUrl": "https://github.com/rabiukano1/vinta-sdk/tree/main/unity",
+  "license": "SEE LICENSE IN LICENSE.md"
+}

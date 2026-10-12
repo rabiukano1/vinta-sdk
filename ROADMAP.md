@@ -18,7 +18,7 @@ tools"). ✅ built · 🧪 built, in testing · ⬜ not started.
 - ✅ Publisher portal: apps, ad units, block lists, reports, payouts, integration docs
 - ✅ Privacy: TCF 2.2, GPP, COPPA, 90-day retention, deletion requests
 - 🧪 Web SDK, React Native wrapper, Flutter plugin
-- ⬜ Unity plugin
+- 🧪 Unity plugin (`com.view2earn.vinta`, Android)
 - 🧪 VAST 4.2 video ads for any video player (Google IMA, video.js, JW Player)
 - ⬜ MRAID rich media
 - ⬜ Closed beta with partner publishers

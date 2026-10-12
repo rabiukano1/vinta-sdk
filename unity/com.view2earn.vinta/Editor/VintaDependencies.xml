@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Read by the External Dependency Manager for Unity (EDM4U): adds VINTA's
+     Maven repo and the Android SDK to the Gradle build. -->
+<dependencies>
+  <androidPackages>
+    <repositories>
+      <repository>https://vinta-console.pages.dev/maven</repository>
+    </repositories>
+    <androidPackage spec="org.view2earn.vinta:vinta:0.5.0" />
+  </androidPackages>
+</dependencies>
