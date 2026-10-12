@@ -1,0 +1,40 @@
+# Publishes the npm packages from GitHub with npm trusted publishing (OIDC):
+# no npm token, no passkey prompt. Runs when a GitHub release is published.
+# Each package is published only if its package.json version is new.
+# Setup (once per package, after its first manual publish): npmjs.com →
+# package → Settings → Trusted Publisher → GitHub Actions →
+# user "rabiukano1", repo "vinta-sdk", workflow "publish.yml".
+name: Publish npm packages
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+permissions:
+  id-token: write # required for trusted publishing
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [web, react-native]
+    defaults:
+      run:
+        working-directory: ${{ matrix.package }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+      - run: npm install -g npm@latest # trusted publishing needs npm 11.5.1+
+      - name: Publish if this version is new
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "$NAME@$VERSION is already on npm, skipping"
+          else
+            npm publish
+          fi
