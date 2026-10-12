@@ -24,7 +24,8 @@ tools"). ✅ built · 🧪 built, in testing · ⬜ not started.
 
 ## Phase 3 — Mediation
 - 🧪 AdMob custom-event adapter (all formats)
-- ⬜ AppLovin MAX and Unity LevelPlay adapters
+- 🧪 AppLovin MAX adapter (Android, all formats)
+- ⬜ Unity LevelPlay adapter
 - ⬜ Public release on Maven Central / pub.dev / npm
 - ⬜ sellers.json and app-ads.txt on VINTA's own domain
 

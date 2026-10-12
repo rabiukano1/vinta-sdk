@@ -6,9 +6,10 @@ Halal ad network SDK for Android (Kotlin, works from Java). Modules:
 |---|---|---|
 | `vinta` | SDK: banner, interstitial, rewarded, app open, rewarded interstitial, native. No third-party dependencies. minSdk 21. | ~75 KB AAR |
 | `vinta-admob` | AdMob mediation custom-event adapter. minSdk 23. | ~15 KB AAR |
+| `vinta-applovin` | AppLovin MAX custom SDK network adapter. minSdk 21. | ~26 KB AAR |
 | `sample` | Test app: paste an app key, try every ad unit. | |
 
-Build: `./gradlew :vinta:assembleRelease :vinta-admob:assembleRelease :sample:assembleDebug`
+Build: `./gradlew :vinta:assembleRelease :vinta-admob:assembleRelease :vinta-applovin:assembleRelease :sample:assembleDebug`
 (AARs in `*/build/outputs/aar/`, APK in `sample/build/outputs/apk/debug/`).
 
 ## Install
@@ -17,8 +18,9 @@ Build: `./gradlew :vinta:assembleRelease :vinta-admob:assembleRelease :sample:as
 // settings.gradle.kts → dependencyResolutionManagement { repositories { ... } }
 maven { url = uri("https://vinta-console.pages.dev/maven") }
 // app/build.gradle.kts
-implementation("org.view2earn.vinta:vinta:0.4.0")
-implementation("org.view2earn.vinta:vinta-admob:0.4.0.0") // AdMob mediation only
+implementation("org.view2earn.vinta:vinta:0.5.0")
+implementation("org.view2earn.vinta:vinta-admob:0.5.0.0")    // AdMob mediation only
+implementation("org.view2earn.vinta:vinta-applovin:0.5.0.0") // AppLovin MAX mediation only
 ```
 
 Publish a new version: bump `gradle.properties`, run `gradlew publishToConsole`, deploy the console.
@@ -77,10 +79,26 @@ Error codes match AdMob: 0 internal, 1 invalid request, 2 network, 3 no fill, 4 
 4. Banners: leave auto-refresh **off** on the VINTA unit; AdMob refreshes the mediated banner.
 5. Test with AdMob Ad Inspector.
 
+## AppLovin MAX mediation (custom SDK network)
+
+1. Add `vinta` + `vinta-applovin` to the app (it already has the AppLovin SDK).
+2. MAX dashboard → Mediation → Manage → Networks → **Click here to add a Custom Network**:
+   - Network type: **SDK**, name: `VINTA`
+   - Android adapter class name: `org.view2earn.vinta.applovin.VintaMediationAdapter`
+3. On each MAX ad unit, enable the VINTA network:
+   - **App ID**: your VINTA app key (`va_...`)
+   - **Placement ID**: the VINTA ad unit id of the same format
+   - **Custom Parameters** (optional): `{"test":true}` while testing (MAX test mode also works)
+   - CPM price: your expected VINTA eCPM.
+4. Rewarded: the reward amount/label come from the **MAX** ad unit; MAX's server-side callbacks cover mediated rewards.
+5. Banners and MRECs: leave auto-refresh **off** on the VINTA unit; MAX refreshes the mediated banner.
+6. Test with the MAX Mediation Debugger (`AppLovinSdk.getInstance(context).showMediationDebugger()`).
+
 ## Compatibility (blueprint 2.6)
 
 | Adapter | VINTA SDK | Google Mobile Ads (compiled against) | Tested |
 |---|---|---|---|
+| 0.5.0.0 (MAX) | 0.5.0 | AppLovin SDK 13.6.4 (compileOnly) | builds against the real SDK; all 6 formats; not yet in a live MAX unit |
 | 0.3.0.0 | 0.3.0 | 24.9.0 (compileOnly) | builds; adds app open, rewarded interstitial, native mapper |
 | 0.2.0.0 | 0.2.0 | 24.9.0 (compileOnly: uses the app's version) | builds; not yet in a live mediation group |
 | 0.1.0.0 | 0.1.0 | 24.9.0 | superseded (unsigned requests are no longer billed) |

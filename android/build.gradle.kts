@@ -7,7 +7,11 @@ plugins {
 // One command to refresh VINTA's Maven repo on the console site:
 //   gradlew publishToConsole   → apps/vinta/public/maven (served at <console>/maven after deploy)
 tasks.register<Copy>("publishToConsole") {
-    dependsOn(":vinta:publishAllPublicationsToVintaRepository", ":vinta-admob:publishAllPublicationsToVintaRepository")
+    dependsOn(
+        ":vinta:publishAllPublicationsToVintaRepository",
+        ":vinta-admob:publishAllPublicationsToVintaRepository",
+        ":vinta-applovin:publishAllPublicationsToVintaRepository",
+    )
     from(layout.buildDirectory.dir("maven"))
     into(rootDir.resolve("../../apps/vinta/public/maven"))
 }
