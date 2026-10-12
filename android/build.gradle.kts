@@ -11,6 +11,7 @@ tasks.register<Copy>("publishToConsole") {
         ":vinta:publishAllPublicationsToVintaRepository",
         ":vinta-admob:publishAllPublicationsToVintaRepository",
         ":vinta-applovin:publishAllPublicationsToVintaRepository",
+        ":vinta-levelplay:publishAllPublicationsToVintaRepository",
     )
     from(layout.buildDirectory.dir("maven"))
     into(rootDir.resolve("../../apps/vinta/public/maven"))

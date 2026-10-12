@@ -7,9 +7,10 @@ Halal ad network SDK for Android (Kotlin, works from Java). Modules:
 | `vinta` | SDK: banner, interstitial, rewarded, app open, rewarded interstitial, native. No third-party dependencies. minSdk 21. | ~75 KB AAR |
 | `vinta-admob` | AdMob mediation custom-event adapter. minSdk 23. | ~15 KB AAR |
 | `vinta-applovin` | AppLovin MAX custom SDK network adapter. minSdk 21. | ~26 KB AAR |
+| `vinta-levelplay` | Unity LevelPlay custom adapter (interstitial, rewarded, banner). minSdk 21. | ~17 KB AAR |
 | `sample` | Test app: paste an app key, try every ad unit. | |
 
-Build: `./gradlew :vinta:assembleRelease :vinta-admob:assembleRelease :vinta-applovin:assembleRelease :sample:assembleDebug`
+Build: `./gradlew :vinta:assembleRelease :vinta-admob:assembleRelease :vinta-applovin:assembleRelease :vinta-levelplay:assembleRelease :sample:assembleDebug`
 (AARs in `*/build/outputs/aar/`, APK in `sample/build/outputs/apk/debug/`).
 
 ## Install
@@ -21,6 +22,7 @@ maven { url = uri("https://vinta-console.pages.dev/maven") }
 implementation("org.view2earn.vinta:vinta:0.5.0")
 implementation("org.view2earn.vinta:vinta-admob:0.5.0.0")    // AdMob mediation only
 implementation("org.view2earn.vinta:vinta-applovin:0.5.0.0") // AppLovin MAX mediation only
+implementation("org.view2earn.vinta:vinta-levelplay:0.5.0.0") // Unity LevelPlay mediation only
 ```
 
 Publish a new version: bump `gradle.properties`, run `gradlew publishToConsole`, deploy the console.
@@ -94,10 +96,27 @@ Error codes match AdMob: 0 internal, 1 invalid request, 2 network, 3 no fill, 4 
 5. Banners and MRECs: leave auto-refresh **off** on the VINTA unit; MAX refreshes the mediated banner.
 6. Test with the MAX Mediation Debugger (`AppLovinSdk.getInstance(context).showMediationDebugger()`).
 
+## Unity LevelPlay mediation (custom adapter)
+
+Once per network, VINTA registers the adapter with Unity (LevelPlay custom adapter form) with:
+package `com.ironsource.adapters.custom.vinta`, base adapter `VintaCustomAdapter`
+(ad units `VintaCustomInterstitial`, `VintaCustomRewardedVideo`, `VintaCustomBanner`),
+app-level key `appKey`, instance-level keys `unitId` and `test`. Then each publisher:
+
+1. Adds `vinta` + `vinta-levelplay` to the app (it already has the LevelPlay SDK 7.3+).
+2. LevelPlay dashboard → SDK Networks → **VINTA**: App key = their VINTA app key (`va_...`).
+3. Per instance: `unitId` = the VINTA ad unit id of the same format (`test` = `true` while testing), and a rate.
+4. Rewarded: the reward comes from the LevelPlay placement; LevelPlay's server-to-server callbacks cover it.
+5. Banners: leave auto-refresh **off** on the VINTA unit; LevelPlay refreshes the mediated banner.
+6. Test with the LevelPlay Integration Test Suite.
+
+LevelPlay custom adapters support interstitial, rewarded video and banner (no native).
+
 ## Compatibility (blueprint 2.6)
 
 | Adapter | VINTA SDK | Google Mobile Ads (compiled against) | Tested |
 |---|---|---|---|
+| 0.5.0.0 (LevelPlay) | 0.5.0 | LevelPlay SDK 9.6.1 (compileOnly) | builds against the real SDK; interstitial, rewarded, banner; awaiting Unity registration |
 | 0.5.0.0 (MAX) | 0.5.0 | AppLovin SDK 13.6.4 (compileOnly) | builds against the real SDK; all 6 formats; not yet in a live MAX unit |
 | 0.3.0.0 | 0.3.0 | 24.9.0 (compileOnly) | builds; adds app open, rewarded interstitial, native mapper |
 | 0.2.0.0 | 0.2.0 | 24.9.0 (compileOnly: uses the app's version) | builds; not yet in a live mediation group |

@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "vinta-android"
-include(":vinta", ":vinta-admob", ":vinta-applovin", ":sample")
+include(":vinta", ":vinta-admob", ":vinta-applovin", ":vinta-levelplay", ":sample")
 
 // Compile check for the React Native wrapper (../react-native).
 include(":rn-check")
