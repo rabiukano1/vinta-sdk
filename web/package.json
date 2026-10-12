@@ -1,0 +1,22 @@
+{
+  "name": "vinta-web",
+  "version": "0.6.0",
+  "description": "VINTA halal ad network for websites, PWAs and Telegram mini apps: banner, interstitial, app open, rewarded, rewarded interstitial, native.",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "files": ["index.js", "index.d.ts", "README.md", "LICENSE"],
+  "sideEffects": false,
+  "keywords": ["ads", "advertising", "halal", "ad-network", "rewarded-ads", "telegram-mini-app", "vinta"],
+  "homepage": "https://github.com/rabiukano1/vinta-sdk/tree/main/web",
+  "repository": { "type": "git", "url": "git+https://github.com/rabiukano1/vinta-sdk.git", "directory": "web" },
+  "bugs": "https://github.com/rabiukano1/vinta-sdk/issues",
+  "license": "SEE LICENSE IN LICENSE",
+  "publishConfig": { "access": "public" }
+}

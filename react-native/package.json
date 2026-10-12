@@ -10,11 +10,31 @@
     "android/build.gradle",
     "android/src",
     "react-native.config.js",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "peerDependencies": {
     "react": ">=18",
     "react-native": ">=0.73"
   },
-  "license": "UNLICENSED"
+  "license": "SEE LICENSE IN LICENSE",
+  "keywords": [
+    "react-native",
+    "ads",
+    "advertising",
+    "halal",
+    "ad-network",
+    "rewarded-ads",
+    "vinta"
+  ],
+  "homepage": "https://github.com/rabiukano1/vinta-sdk/tree/main/react-native",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rabiukano1/vinta-sdk.git",
+    "directory": "react-native"
+  },
+  "bugs": "https://github.com/rabiukano1/vinta-sdk/issues",
+  "publishConfig": {
+    "access": "public"
+  }
 }
